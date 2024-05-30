@@ -20,7 +20,7 @@ void weatherModalBottomSheet(
     ),
     builder: (context) {
       return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.65,
+        height: MediaQuery.of(context).size.height * 0.75,
         child: Container(
           padding: const EdgeInsets.all(10.0),
           child: Column(

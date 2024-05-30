@@ -20,6 +20,7 @@ class LocationRepository {
       }
     } catch (e) {
       print(e);
+      rethrow;
     }
   }
 }

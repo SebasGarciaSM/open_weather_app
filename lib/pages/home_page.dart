@@ -1,4 +1,6 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -44,7 +46,46 @@ class _HomePageState extends State<HomePage> {
         setState(() {});
       }
     } catch (e) {
+      setState(() {
+        results.clear();
+        showLoadingIndicator = false;
+      });
       print(e);
+
+      String errorTitle = '';
+      String errorDescription = '';
+
+      if (e is SocketException) {
+        errorTitle = 'No internet connection';
+        errorDescription =
+            'Reconnect to your internet connection and then try again.';
+      } else {
+        errorTitle = 'An error has ocurred';
+        errorDescription = e.toString();
+      }
+
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(errorTitle),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  Text(errorDescription),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () => Modular.to.pop(),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
